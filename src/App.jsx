@@ -2,12 +2,14 @@ import React, { useState } from "react";
 import "./styles.css";
 
 export const App = () => {
+  //動的に変化する項目に対いて、stateを割り当てる
   const [todoText, setTodoText] = useState("");
   const [incomplteTodos, setIncomplteTodos] = useState(["タスク1", "タスク2"]);
 
   const [completeTodos, setCompleteTodos] = useState(["タスク3"]);
   const onChangeTodoText = (event) => setTodoText(event.target.value);
 
+  //buttonを押したとき、実行される関数
   const onClickAdd = () => {
     if (todoText === "") return;
     const newTodos = [...incomplteTodos, todoText];
@@ -21,6 +23,7 @@ export const App = () => {
     setIncomplteTodos(newTodos);
   };
 
+  //レンダリングされる内容
   return (
     <>
       <div className="input-area">
