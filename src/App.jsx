@@ -4,7 +4,10 @@ import "./styles.css";
 export const App = () => {
   //動的に変化する項目に対いて、stateを割り当てる
   const [todoText, setTodoText] = useState("");
-  const [incomplteTodos, setIncomplteTodos] = useState(["タスク1", "タスク2"]);
+  const [incompleteTodos, setIncompleteTodos] = useState([
+    "タスク1",
+    "タスク2"
+  ]);
 
   const [completeTodos, setCompleteTodos] = useState(["タスク3"]);
   const onChangeTodoText = (event) => setTodoText(event.target.value);
@@ -12,15 +15,24 @@ export const App = () => {
   //buttonを押したとき、実行される関数
   const onClickAdd = () => {
     if (todoText === "") return;
-    const newTodos = [...incomplteTodos, todoText];
-    setIncomplteTodos(newTodos);
+    const newTodos = [...incompleteTodos, todoText];
+    setIncompleteTodos(newTodos);
     setTodoText("");
   };
 
   const onClickDelete = (index) => {
-    const newTodos = [...incomplteTodos];
+    const newTodos = [...incompleteTodos];
     newTodos.splice(index, 1);
-    setIncomplteTodos(newTodos);
+    setIncompleteTodos(newTodos);
+  };
+
+  const onClickComplete = (index) => {
+    const newIncompleteTodos = [...incompleteTodos];
+    newIncompleteTodos.splice(index, 1);
+
+    const newCompleteTodos = [...completeTodos, incompleteTodos[index]];
+    setIncompleteTodos(newIncompleteTodos);
+    setCompleteTodos(newCompleteTodos);
   };
 
   //レンダリングされる内容
@@ -37,11 +49,11 @@ export const App = () => {
       <div className="incomplete-area">
         <p className="title">未完了のToDo</p>
         <ul>
-          {incomplteTodos.map((todo, index) => {
+          {incompleteTodos.map((todo, index) => {
             return (
               <div key={todo} className="list-row">
                 <li>{todo}</li>
-                <button>完了</button>
+                <button onClick={() => onClickComplete(index)}>完了</button>
                 <button onClick={() => onClickDelete(index)}>削除</button>
               </div>
             );
